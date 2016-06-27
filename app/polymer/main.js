@@ -1,27 +1,12 @@
 'use strict';
 
 import {Polymer} from './polymer.js';
-import {createStore} from 'redux';
-
-// Reducer function
-const counter = (state = 0, action) => {
-  switch (action.type){
-    case 'INCREMENT':
-      return state + 1;
-    case 'DECREMENT':
-        return state - 1;
-    default:
-      return state;
-  }
-}
-
-// Bind store to reducer
-const store = createStore(counter);
+import {ReduxBehavior} from './store.js';
 
 export class CounterRedux {
 
 	get behaviors() {
-	    return [];
+	    return [ReduxBehavior];
 	}
 
 	beforeRegister(){
@@ -29,25 +14,27 @@ export class CounterRedux {
 		this.properties = {
         value: {
           type: Number,
-          value: () => { return store.getState() }
+          statePath: 'value'
         }
 		}
 	}
 
   _onIncrement(){
-    store.dispatch({
+    this.dispatch({
       type: 'INCREMENT'
-    })
+    });
+    console.log(this.getState());
   }
 
   _onDecrement(){
-    store.dispatch({
+    this.dispatch({
       type: 'DECREMENT'
-    })
+    });
+    console.log(this.getState());
   }
 
 	attached(){
-
+    console.log(this.getState());
 	}
 
 }

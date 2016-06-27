@@ -21286,27 +21286,9 @@
 
 	var _polymer = __webpack_require__(183);
 
-	var _redux = __webpack_require__(2);
+	var _store = __webpack_require__(184);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	// Reducer function
-	var counter = function counter() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-	  var action = arguments[1];
-
-	  switch (action.type) {
-	    case 'INCREMENT':
-	      return state + 1;
-	    case 'DECREMENT':
-	      return state - 1;
-	    default:
-	      return state;
-	  }
-	};
-
-	// Bind store to reducer
-	var store = (0, _redux.createStore)(counter);
 
 	var CounterRedux = exports.CounterRedux = function () {
 	  function CounterRedux() {
@@ -21320,33 +21302,35 @@
 	      this.properties = {
 	        value: {
 	          type: Number,
-	          value: function value() {
-	            return store.getState();
-	          }
+	          statePath: 'value'
 	        }
 	      };
 	    }
 	  }, {
 	    key: '_onIncrement',
 	    value: function _onIncrement() {
-	      store.dispatch({
+	      this.dispatch({
 	        type: 'INCREMENT'
 	      });
+	      console.log(this.getState());
 	    }
 	  }, {
 	    key: '_onDecrement',
 	    value: function _onDecrement() {
-	      store.dispatch({
+	      this.dispatch({
 	        type: 'DECREMENT'
 	      });
+	      console.log(this.getState());
 	    }
 	  }, {
 	    key: 'attached',
-	    value: function attached() {}
+	    value: function attached() {
+	      console.log(this.getState());
+	    }
 	  }, {
 	    key: 'behaviors',
 	    get: function get() {
-	      return [];
+	      return [_store.ReduxBehavior];
 	    }
 	  }]);
 
@@ -21365,6 +21349,39 @@
 	  value: true
 	});
 	var Polymer = exports.Polymer = window.Polymer;
+
+/***/ },
+/* 184 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.ReduxBehavior = undefined;
+
+	var _redux = __webpack_require__(2);
+
+	// Reducer function
+	var counter = function counter() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? { value: 0 } : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'INCREMENT':
+	      return Object.assign({}, state, { value: state.value + 1 });
+	    case 'DECREMENT':
+	      return Object.assign({}, state, { value: state.value - 1 });
+	    default:
+	      return state;
+	  }
+	};
+
+	// Bind store to reducer
+	var store = (0, _redux.createStore)(counter);
+
+	var ReduxBehavior = exports.ReduxBehavior = new PolymerRedux(store);
 
 /***/ }
 /******/ ]);
