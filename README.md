@@ -1,11 +1,11 @@
 # Redux learning
-> My personal takes on learning Redux with both React & Polymer
+> My personal takes on learning Redux and Redux Saga
 
 ### Install & Run
 - clone this repo
-- from terminal type ``` npm install && bower install ```
-- then type ``` gulp ```
-- open the browser at ```http://localhost:8888 ```
+- from terminal type ```yarn```
+- then type ```yarn start```
+- open the browser at ```http://localhost:8080 ```
 
 ### License
 
